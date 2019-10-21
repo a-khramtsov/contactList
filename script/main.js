@@ -6,7 +6,7 @@ window.onload = function () {
     inputs.forEach(item => {
         item.addEventListener('change', function (event) {
             let target = event.target;
-            if (target.value.length <= 3) {
+            if (target.value.trim().length <= 3) {
                 this.value = "";
                 showError("Can't be shorter than 3 symbols", this);
             }
@@ -19,7 +19,7 @@ window.onload = function () {
     document.querySelector('.js-phone-input').addEventListener('change', function (event) {
         let target = event.target;
 
-        if (target.value[0] !== '+' || !onlyNubmers(target.value, numbersArray) || target.value.length <= 5) {
+        if (target.value[0] !== '+' || !onlyNubmers(target.value, numbersArray) || target.value.trim().length <= 5) {
             this.value = "";
             showError("Invalid phone number", this);
         }
@@ -68,9 +68,9 @@ window.onload = function () {
         let vacancyInput = document.querySelector('.js-vacancy-input');
         let phoneInput = document.querySelector('.js-phone-input');
 
-        let nameI = nameInput.value;
-        let vacancyI = vacancyInput.value;
-        let phoneI = phoneInput.value;
+        let nameI = nameInput.value.trim();
+        let vacancyI = vacancyInput.value.trim();
+        let phoneI = phoneInput.value.trim();
 
         if (nameI != '' && vacancyI != '' && phoneI != "") {
             contact.name = nameI;
