@@ -56,9 +56,6 @@ window.onload = function () {
 
 
     //Press on submit button
-
-
-
     document.querySelector('.js-submit-btn').addEventListener('click', () => {
 
         let contact = new Object();
@@ -83,67 +80,79 @@ window.onload = function () {
 
             //If any input is empty, he will be active
             if (nameI == '')
-                nameInput.classList.toggle('active');
+                nameInput.classList.add(nameInput.classList[0] + '_active');
             if (vacancyI == '')
-                vacancyInput.classList.toggle('active');
+                vacancyInput.classList.add(vacancyInput.classList[0] + '_active');
             if (phoneI == '')
-                phoneInput.classList.toggle('active');
+                phoneInput.classList.add(phoneInput.classList[0] + '_active');
 
             setTimeout(function () {
-                nameInput.classList.remove('active');
-                vacancyInput.classList.remove('active');
-                phoneInput.classList.remove('active');
+                nameInput.classList.remove(nameInput.classList[0] + '_active');
+                vacancyInput.classList.remove(vacancyInput.classList[0] + '_active');
+                phoneInput.classList.remove(phoneInput.classList[0] + '_active');
             }, 3000);
         }
 
     });
 
     //Add contact to list
-    let contactMap = new Map();  
-    function addToTable(contact, firstLetter) { 
-        let notEquals = true; 
+    let contactSet = new Set();
+    let letterContactsObj = {};
 
-        //If contains equals element, then don't add this element
-        for (let contactE of contactMap.keys()) {            
-            if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {               
-                notEquals = false;          
+    function addToTable(contact, firstLetter) {
+        let notEquals = true;
+
+        //Set of all elements of contact list
+        for (let contactE of contactSet.keys()) {
+            if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {
+                notEquals = false;
             }
         }
 
-        if (notEquals)
-            contactMap.set(contact, firstLetter);
-
-        console.log(contactMap);
-
-        
-        // let letter = document.querySelector('.js-column-letter#' + firstLetter);             
-
-        // if (!contactMap.get(contact)){
-        //     contactMap.set(contact, firstLetter);
-        //     // let span = document.createElement('span');
-        //     // span.className = 'letter__couner';
-        //     // span.textContent = '0';
-        //     // letter.appendChild(span);
-        //     // letter.children[0].textContent++;
-
-        // } 
-
+        if (notEquals) {
+            contactSet.add(contact);
+            //If object hasn't this property, creating array at this property
+            if (!letterContactsObj.hasOwnProperty(firstLetter)) {
+                letterContactsObj[firstLetter] = new Array();
+            }
+            letterContactsObj[firstLetter].push(contact);
+            changeCounter(firstLetter);
+        }
+        console.log(letterContactsObj);
     }
 
 
+    function changeCounter(firstLetter) {      
+        //If div hasn't span - creating it
+        let hasSpan = false;
+        let letter = document.querySelector('.js-column-letter#' + firstLetter);
+        for (let i = 0; i < letter.children.length; i++){            
+            if (letter.children[i].tagName == 'SPAN'){
+                hasSpan = true;
+                break;
+            }
+        }
+        
+        if (!hasSpan){
+            let span = document.createElement('span');
+            span.className = 'letter__couner';
+            span.textContent = '0';
+            letter.appendChild(span);
+            
+        }
+        letter.children[0].textContent++;        
+    }
 
 
-
-
-
-    // //Click on table element
-    // let tableElements = document.querySelectorAll('.table-element')
-    // tableElements.forEach(function(item) {
-    //     item.addEventListener('click', function() {            
-    //         console.log(this.childNodes[3].classList);
-    //         this.childNodes[3].classList.toggle('active');
-    //         this.childNodes[5].classList.toggle('active');
-    //     });
-    // });
+    //Click on table element
+    let tableElements = document.querySelectorAll('.js-column-letter')
+    tableElements.forEach(function(item) {
+        item.addEventListener('click', function() {            
+            console.log(item.childNodes);
+            // this.childNodes[3].classList.toggle('active');
+            // this.childNodes[5].classList.toggle('active');
+            
+        });
+    });
 
 };
