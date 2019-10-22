@@ -28,14 +28,14 @@ window.onload = function () {
     //Showing error
     function showError(err, obj = m) {
         let errorHolder = document.querySelector('.js-error-holder');
-        errorHolder.classList.toggle('active');
-        obj.classList.toggle('active');
+        errorHolder.classList.toggle('error-holder_active');
+        obj.classList.toggle(obj.classList[0] + '_active');
         errorHolder.textContent = err;
 
         //Sand after 3 seconds hide error message
         setTimeout(function () {
-            errorHolder.classList.toggle('active');
-            obj.classList.toggle('active');
+            errorHolder.classList.toggle('error-holder_active');
+            obj.classList.toggle(obj.classList[0] + '_active');
         }, 3000);
     }
 
@@ -57,13 +57,11 @@ window.onload = function () {
 
     //Press on submit button
 
-    let contactMap = new Map();
-    let contact = {
-        name: '',
-        vacancy: '',
-        phone: '',
-    }
+
+
     document.querySelector('.js-submit-btn').addEventListener('click', () => {
+
+        let contact = new Object();
         let nameInput = document.querySelector('.js-name-input');
         let vacancyInput = document.querySelector('.js-vacancy-input');
         let phoneInput = document.querySelector('.js-phone-input');
@@ -76,10 +74,10 @@ window.onload = function () {
             contact.name = nameI;
             contact.vacancy = vacancyI;
             contact.phone = phoneI;
-            let firstLetter = nameI[0];
+            let firstLetter = nameI[0].toLowerCase();
 
-            contactMap.set(contact, firstLetter)
-            console.log(contactMap);
+            addToTable(contact, firstLetter);
+
         } else {
             showError('Empty input'); //Show error
 
@@ -99,6 +97,38 @@ window.onload = function () {
         }
 
     });
+
+    //Add contact to list
+    let contactMap = new Map();  
+    function addToTable(contact, firstLetter) { 
+        let notEquals = true; 
+
+        //If contains equals element, then don't add this element
+        for (let contactE of contactMap.keys()) {            
+            if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {               
+                notEquals = false;          
+            }
+        }
+
+        if (notEquals)
+            contactMap.set(contact, firstLetter);
+
+        console.log(contactMap);
+
+        
+        // let letter = document.querySelector('.js-column-letter#' + firstLetter);             
+
+        // if (!contactMap.get(contact)){
+        //     contactMap.set(contact, firstLetter);
+        //     // let span = document.createElement('span');
+        //     // span.className = 'letter__couner';
+        //     // span.textContent = '0';
+        //     // letter.appendChild(span);
+        //     // letter.children[0].textContent++;
+
+        // } 
+
+    }
 
 
 

@@ -14,6 +14,7 @@ body{
 }
 
 /* Style for all inputs */
+
 .inputs {
     display: flex;
     flex-direction: row;
@@ -22,7 +23,8 @@ body{
 }
 
 
-.inputs input[type="text"]{
+
+.inputs__item{
     height: 25px;
     width: 190px;
     font-size: 15px;
@@ -33,27 +35,28 @@ body{
     transition: .5s;
     border: 2px solid #aaaaaa;
 }
-.inputs .submit-btn{
+
+.inputs__item_active{
+    background: #ffe489; 
+    border: 2px solid #ff0000;      
+}
+.inputs__submit{
     height: 30px;
     width: 100px;
     background: #fff;
+    padding: 0;
     border: 2px solid #c07777;
     border-radius: 10px;
     font-weight: bold;
     transition: .5s;
 }
 
-.inputs .submit-btn:hover{
+.inputs__submit:hover{
     background: #c07777;
     border: 2px solid #fff;
     color: #fff;
 }
 
-.inputs input.active{
-    background: #ffe489; 
-    border: 2px solid #ff0000;  
-    transition: .3s;
-}
 
 
 /* Letter table */
@@ -65,15 +68,21 @@ body{
     width: 500px;
     margin: 50px 0;
 }
-.letter{    
+.column__letter{    
     width: 230px;
     border-top: 1px solid #c07777;
     padding: 10px 0 10px 10px;
     font-weight: bold;
-    background: #ffc4c4;
+    background: #ffc4c4;    
+}
+.letter__couner {
+    margin-left: 70%;    
 }
 
-.letter:last-child{    
+.column__letter_active {
+    background: #fad2d2;
+}
+.column__letter:last-child{    
     border-bottom: 1px solid #c07777;
 }
 
@@ -91,7 +100,7 @@ body{
     cursor: default;
 }
 
-.error-holder.active{  
+.error-holder_active{  
     opacity: 1;
     cursor: text;    
 }
