@@ -68,7 +68,11 @@ body{
     width: 500px;
     margin: 50px 0;
 }
-.column__letter{    
+.column__element{
+    width: 230px;
+}
+
+.element__letter{    
     width: 230px;
     border-top: 1px solid #c07777;
     padding: 10px 0 10px 10px;
@@ -79,15 +83,27 @@ body{
     margin-left: 80%;    
 }
 
-.column__letter_active {
+
+.element__letter_active {
     background: #fad2d2;
 }
-.column__letter:last-child{    
+.element__letter:last-child{    
     border-bottom: 1px solid #c07777;
 }
 
+.letter__info {
+    display: none;
+    font-size: 16px;
+    background: #e6e6e6;   
+    width: 100%;
+    border-top: 1px solid #b8b8b8;
+    border-bottom: 1px solid #b8b8b8;
+    padding-left: 5px;
+}
 
-
+.letter__info_active{
+    display: block;
+}
 
 /* Error message */
 .error-holder{

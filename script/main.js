@@ -6,7 +6,7 @@ window.onload = function () {
     inputs.forEach(item => {
         item.addEventListener('change', function (event) {
             let target = event.target;
-            if (target.value.trim().length <= 3) {
+            if (target.value.trim().length < 3) {
                 this.value = "";
                 showError("Can't be shorter than 3 symbols", this);
             }
@@ -117,42 +117,65 @@ window.onload = function () {
             }
             letterContactsObj[firstLetter].push(contact);
             changeCounter(firstLetter);
+            addInfoToLetter(firstLetter, contact);
         }
         console.log(letterContactsObj);
     }
 
 
-    function changeCounter(firstLetter) {      
+    function changeCounter(firstLetter) {
         //If div hasn't span - creating it
         let hasSpan = false;
         let letter = document.querySelector('.js-column-letter#' + firstLetter);
-        for (let i = 0; i < letter.children.length; i++){            
-            if (letter.children[i].tagName == 'SPAN'){
+        for (let i = 0; i < letter.children.length; i++) {
+            if (letter.children[i].tagName == 'SPAN') {
                 hasSpan = true;
                 break;
             }
         }
-        
-        if (!hasSpan){
+
+        if (!hasSpan) {
             let span = document.createElement('span');
             span.className = 'letter__couner';
             span.textContent = '0';
             letter.appendChild(span);
-            
+
         }
-        letter.children[0].textContent++;        
+        letter.children[0].textContent++;
     }
 
 
-    //Click on table element
-    let tableElements = document.querySelectorAll('.js-column-letter')
-    tableElements.forEach(function(item) {
-        item.addEventListener('click', function() {            
-            console.log(item.childNodes);
-            // this.childNodes[3].classList.toggle('active');
-            // this.childNodes[5].classList.toggle('active');
-            
+
+    function addInfoToLetter(firstLetter, contact) {
+        let callCounter = 0;
+
+        let letter = document.querySelector('.js-column-letter#' + firstLetter);
+        let div = document.createElement('div');
+        div.className = 'letter__info';
+        div.innerText = `Name: ${contact.name} \nVacancy: ${contact.vacancy}\nPhone: ${contact.phone}\n`;
+        letter.after(div);
+    }
+
+
+    //Show elements info
+    let tableElements = document.querySelectorAll('.js-column-letter');
+
+    tableElements.forEach(function (item) {
+        item.addEventListener('click', function (event) {
+            let children = event.target.parentNode.children;
+                        
+            for (let i = 1; i < children.length; i++) {
+                children[i].classList.toggle('.letter__info_active');
+                console.log(children[i]);
+            }
         });
     });
+
+
+
+
+
+    //Click on table element
+
 
 };
