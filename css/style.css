@@ -65,24 +65,20 @@ body{
     flex-direction: row;
     justify-content: space-around;
     align-items: center;    
-    width: 500px;
+    width: 540px;
     margin: 50px 0;
 }
 .column__element{
-    width: 230px;
+    width: 250px;
 }
 
 .element__letter{    
-    width: 230px;
+    width: 245px;
     border-top: 1px solid #c07777;
     padding: 10px 0 10px 10px;
     font-weight: bold;
     background: #ffc4c4;    
 }
-.letter__couner {
-    margin-left: 80%;    
-}
-
 
 .element__letter_active {
     background: #fad2d2;
@@ -90,6 +86,18 @@ body{
 .element__letter:last-child{    
     border-bottom: 1px solid #c07777;
 }
+
+.letter__couner {
+    margin-left: 80%;   
+    display: none; 
+}
+
+.letter__couner_active{
+    display: inline-block;
+}
+
+
+
 
 .letter__info {
     display: none;
@@ -99,6 +107,14 @@ body{
     border-top: 1px solid #b8b8b8;
     border-bottom: 1px solid #b8b8b8;
     padding-left: 5px;
+    position: relative;
+}
+
+
+.fa {
+    position: absolute;
+    top: 40%;
+    left: 85%;
 }
 
 .letter__info_active{
