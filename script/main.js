@@ -222,10 +222,10 @@ window.onload = function () {
             letterContactsObj[firstLetter] = letterContactsArray;
 
             //reduction of letter counter
-            child.parentNode.firstChild.children[0].textContent--;
+            child.parentNode.firstChild.children[0].textContent--;            
             if (child.parentNode.firstChild.children[0].textContent == 0) {
-                child.parentNode.firstChild.children[0].remove();
-                document.querySelector('.js-column-letter').classList.remove('element__letter_active');
+                child.parentNode.firstChild.children[0].remove();                
+                child.parentNode.children[0].classList.toggle('element__letter_active');
             }           
 
             //removing contact from HTML table
