@@ -1,4 +1,5 @@
 window.onload = function () {
+
     //Working with inputs
     let letterArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '];
     //Changing name, vacancy inputs    
@@ -6,24 +7,22 @@ window.onload = function () {
     inputs.forEach(item => {
         item.addEventListener('change', function (event) {
             let target = event.target;
-            if (target.value.trim().length < 3)  {                
+            if (target.value.trim().length < 3) {
                 showError("Can't be shorter than 3 symbols", this);
-            } 
-            else if (target.value.trim().length > 20) {
+            } else if (target.value.trim().length > 20) {
                 showError("Can't be longer than 20 symbols", this);
             } else if (!onlyAllowedLetters(target.value.toLowerCase(), letterArray)) {
                 showError("Invalid value", this);
-            } 
-            
+            }
+
         });
     });
 
     //Changing phone input
-    let numbersArray = ["+", "1", "2", "3", '4', '5', '6', '7', '8', '9', '0'];
-    //Error if length <= 5, not starts with + and if contains not number
+    let numbersArray = ["+", "1", "2", "3", '4', '5', '6', '7', '8', '9', '0'];   
     document.querySelector('.js-phone-input').addEventListener('change', function (event) {
         let target = event.target;
-
+        //Showing error if length <= 5, not starts with + and if contains not number
         if (target.value[0] !== '+' || !onlyAllowedLetters(target.value, numbersArray)) {
             showError("Invalid phone number", this);
         } else if (target.value.trim().length <= 5) {
@@ -34,6 +33,7 @@ window.onload = function () {
     });
 
     //Showing error
+    //Arguments: error text and object, which class will be toggled to active
     function showError(err, obj = z1) {
         let errorHolder = document.querySelector('.js-error-holder');
         errorHolder.classList.toggle('error-holder_active');
@@ -45,11 +45,11 @@ window.onload = function () {
         setTimeout(function () {
             errorHolder.classList.toggle('error-holder_active');
             obj.classList.toggle(obj.classList[0] + '_active');
-           
         }, 3000);
     }
 
-    //If phone number contains letters
+    //Function to check if a string contains invalid elements
+    //Arguments: string and array of valid letters
     function onlyAllowedLetters(str, substrings) {
         let onlyAllowed = true;
         for (let i = 0; i < str.length; i++) {
@@ -62,10 +62,7 @@ window.onload = function () {
         return true;
     }
 
-
-
-
-    //Press on submit button
+    //Press on submit button: getting input's values and creating object with fields name, vacancy, phone
     document.querySelector('.js-submit-btn').addEventListener('click', () => {
 
         let contact = new Object();
@@ -77,6 +74,8 @@ window.onload = function () {
         let vacancyI = vacancyInput.value.trim();
         let phoneI = phoneInput.value.trim();
 
+
+        //If all inputs not empty, creating new object, else - printing error ang highlights incorrect inputs 
         if (nameI != '' && vacancyI != '' && phoneI != "") {
             contact.name = nameI;
             contact.vacancy = vacancyI;
@@ -84,12 +83,10 @@ window.onload = function () {
             let firstLetter = nameI[0].toLowerCase();
 
             addToTable(contact, firstLetter);
-
-
         } else {
             showError('Empty input'); //Show error
 
-            //If any input is empty, he will be active
+            //If any input is empty, he will be highlighted
             if (nameI == '')
                 nameInput.classList.add(nameInput.classList[0] + '_active');
             if (vacancyI == '')
@@ -106,14 +103,13 @@ window.onload = function () {
 
     });
 
-    //Add contact to list
+    //Add contact to list and table: adding to general SET list, array of objects and HTML table
     let contactSet = new Set();
     let letterContactsObj = {};
-
     function addToTable(contact, firstLetter) {
         let notEquals = true;
 
-        //Set of all elements of contact list
+        //Set list of all elements of contact list
         for (let contactE of contactSet.keys()) {
             if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {
                 notEquals = false;
@@ -129,13 +125,13 @@ window.onload = function () {
             letterContactsObj[firstLetter].push(contact);
 
             changeCounter(firstLetter);
-            addInfoToLetter(firstLetter, contact);            
+            addInfoToLetter(firstLetter, contact);
         } else {
             showError("Contact List can't contain 2 equals contacts");
-        }        
+        }
     }
 
-
+    //Change counter of 
     function changeCounter(firstLetter) {
         //If div hasn't span - creating it
         let hasSpan = false;
@@ -145,7 +141,7 @@ window.onload = function () {
                 hasSpan = true;
                 break;
             }
-        }        
+        }
 
         if (!hasSpan) {
             let span = document.createElement('span');
@@ -159,88 +155,82 @@ window.onload = function () {
     }
 
 
-    //Adding block with info about contact to letter
+    //Adding block with info about contact to letter when 
     function addInfoToLetter(firstLetter, contact) {
         let letter = document.querySelector('.js-column-letter#' + firstLetter);
-        
-        for (let i = 1; i < letter.parentNode.children.length; i++){
-            letter.parentNode.children[i].classList.remove('letter__info_active');                  
-        }  
+        //Create and add contact's info to page
+        for (let i = 1; i < letter.parentNode.children.length; i++) {
+            letter.parentNode.children[i].classList.remove('letter__info_active');
+        }
         let div = document.createElement('div');
         div.className = 'letter__info';
         div.innerText = `Name: ${contact.name}\n  Vacancy: ${contact.vacancy}\n  Phone: ${contact.phone}\n`;
 
+        //Create and add window close symbol (button)
         let closeWindow = document.createElement('i');
         closeWindow.className = 'fa fa-window-close js-close';
         closeWindow.setAttribute('aria-hidden', true);
         letter.after(div);
+
         div.appendChild(closeWindow);
     }
 
 
-    //Show elements info
+    //Show elements info when click on letter element
     let tableElements = document.querySelectorAll('.js-column-letter');
-
     tableElements.forEach(function (item) {
         item.addEventListener('click', function (event) {
             let children = event.target.parentNode.children;
 
             for (let i = 1; i < children.length; i++) {
-                children[i].classList.toggle('letter__info_active');                
+                children[i].classList.toggle('letter__info_active');
                 // deleteElement(children[i]); //Adding for evert contact delete function
 
                 let delBtn = children[i].children[3];
-                delBtn.addEventListener('click', function() {
+                delBtn.addEventListener('click', function () {
                     deleteElement(children[i]);
-                });  
-                
+                });
+
             }
         });
     });
 
-
-
-
-
     function deleteElement(child) {
-        
-        //delBtn.addEventListener('click', function (event) {    
-            console.log(child);        
-            let delObj = textToObject(child.textContent);
+        let delObj = textToObject(child.textContent);
 
-            //Removing from general SET
-            for (let contactSetElem of contactSet.keys()) {
-                if (contactSetElem.name == delObj.name && contactSetElem.vacancy == delObj.vacancy && contactSetElem.phone == delObj.phone) {
-                    contactSet.delete(contactSetElem);
-                }
+        //Removing from general SET
+        for (let contactSetElem of contactSet.keys()) {
+            if (contactSetElem.name == delObj.name && contactSetElem.vacancy == delObj.vacancy && contactSetElem.phone == delObj.phone) {
+                contactSet.delete(contactSetElem);
             }
+        }
 
-            //removing from array              
-            let firstLetter = child.parentNode.children[0].id;
-            let letterContactsArray = letterContactsObj[firstLetter];
+        //Removing from array of objects            
+        let firstLetter = child.parentNode.children[0].id;
+        let letterContactsArray = letterContactsObj[firstLetter];
 
-            for (let i = 0; i < letterContactsArray.length; i++) {
-                if (letterContactsArray[i].name == delObj.name && letterContactsArray[i].vacancy == delObj.vacancy && letterContactsArray[i].phone == delObj.phone) {
-                    let index = i;
-                    letterContactsArray.splice(index, 1);
-                    break;
-                }
+        for (let i = 0; i < letterContactsArray.length; i++) {
+            if (letterContactsArray[i].name == delObj.name && letterContactsArray[i].vacancy == delObj.vacancy && letterContactsArray[i].phone == delObj.phone) {
+                let index = i;
+                letterContactsArray.splice(index, 1);
+                break;
             }
-            letterContactsObj[firstLetter] = letterContactsArray;
+        }
+        letterContactsObj[firstLetter] = letterContactsArray;
 
-            //reduction of letter counter
-            child.parentNode.firstChild.children[0].textContent--;            
-            if (child.parentNode.firstChild.children[0].textContent == 0) {
-                child.parentNode.firstChild.children[0].remove();                
-                child.parentNode.children[0].classList.toggle('element__letter_active');
-            }           
+        //Reduction of letter counter
+        child.parentNode.firstChild.children[0].textContent--;
+        if (child.parentNode.firstChild.children[0].textContent == 0) {
+            child.parentNode.firstChild.children[0].remove();
+            child.parentNode.children[0].classList.toggle('element__letter_active');
+        }
 
-            //removing contact from HTML table
-            child.remove(); 
-       // });        
+        //Removing contact from HTML table
+        child.remove();
     }
 
-    //Converting HTML text to contact object
+
+    //Converting HTML text to contact object (using for getting object of delete)
     function textToObject(text) {
         let delObj = {};
         let contactFullElements = text.split('  ');
@@ -256,16 +246,12 @@ window.onload = function () {
         return delObj;
     }
 
+    //Press on Clear List button - deleting all general set and array of object
+    document.querySelector('.js-clear-btn').addEventListener('click', function () {
+        let lettersInfo = document.querySelectorAll('.letter__info');
 
-
-    //Press on 
-    document.querySelector('.js-clear-btn').addEventListener('click', function() {
-        let lettersInfo = document.querySelectorAll('.letter__info'); 
-
-        for (let element of lettersInfo){            
+        for (let element of lettersInfo) {
             deleteElement(element);
-        }      
+        }
     });
-
-    
 };
