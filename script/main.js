@@ -186,8 +186,14 @@ window.onload = function () {
             let children = event.target.parentNode.children;
 
             for (let i = 1; i < children.length; i++) {
-                children[i].classList.toggle('letter__info_active');
-                deleteElement(children[i]); //Adding for evert contact delete function
+                children[i].classList.toggle('letter__info_active');                
+                // deleteElement(children[i]); //Adding for evert contact delete function
+
+                let delBtn = children[i].children[3];
+                delBtn.addEventListener('click', function() {
+                    deleteElement(children[i]);
+                });  
+                
             }
         });
     });
@@ -197,8 +203,9 @@ window.onload = function () {
 
 
     function deleteElement(child) {
-        let delBtn = child.children[3];
-        delBtn.addEventListener('click', function (event) {
+        
+        //delBtn.addEventListener('click', function (event) {    
+            console.log(child);        
             let delObj = textToObject(child.textContent);
 
             //Removing from general SET
@@ -229,8 +236,8 @@ window.onload = function () {
             }           
 
             //removing contact from HTML table
-            child.remove();            
-        });
+            child.remove(); 
+       // });        
     }
 
     //Converting HTML text to contact object
@@ -248,4 +255,17 @@ window.onload = function () {
         delObj.phone = contactElements[2].trim();
         return delObj;
     }
+
+
+
+    //Press on 
+    document.querySelector('.js-clear-btn').addEventListener('click', function() {
+        let lettersInfo = document.querySelectorAll('.letter__info'); 
+
+        for (let element of lettersInfo){            
+            deleteElement(element);
+        }      
+    });
+
+    
 };

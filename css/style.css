@@ -37,16 +37,18 @@ body{
     border: 2px solid #aaaaaa;
 }
 
-.inputs__item:hover, .inputs__item:focus {
-    border: 2px solid red; 
+.inputs__name:hover, .inputs__vacancy:hover, .inputs__phone:hover {
+    border: 2px solid #fcaaaa; 
 }
 
-
+.inputs__name:focus, .inputs__vacancy:focus, .inputs__phone:focus { 
+    border: 2px solid #ff5f5f; 
+}
 .inputs__item_active{
     background: #ffe489; 
     border: 2px solid #ff0000;      
 }
-.inputs__submit{
+.inputs__submit, .inputs__clear{
     height: 30px;
     width: 100px;
     background: #fff;
@@ -57,12 +59,11 @@ body{
     transition: .5s;
 }
 
-.inputs__submit:hover{
+.inputs__submit:hover, .inputs__clear:hover{
     background: #c07777;
     border: 2px solid #fff;
     color: #fff;
 }
-
 
 
 /* Letter table */
