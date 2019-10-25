@@ -24,7 +24,6 @@ window.onload = function () {
         let regLetters = /[a-zа-я ]/gmi;
         let regNumbers = /[0-9+]/gmi; 
 
-
         if (input.className.includes('js-phone-input')) {
             if (inputValue.length <= 5)
                 showErrorInput("Can't be shorter than 5 symbols", input);
@@ -56,15 +55,15 @@ window.onload = function () {
         obj.value = "";
         obj.setAttribute('placeholder', errText);
 
-
         //Sand after 3 seconds hide error message
         setTimeout(function () {
             obj.classList.toggle(obj.classList[0] + '_active');
             obj.setAttribute('placeholder', tempPlaceHolder);
-
         }, 3000);
     }
 
+
+    //Printing al screend message on 3 seconds
     function showErrorBlock(errorText) {
         let error = document.querySelector('.js-error');
         error.classList.toggle('error_active');
@@ -73,12 +72,6 @@ window.onload = function () {
             error.classList.toggle('error_active');
         }, 3000);
     }
-    
-    
-
-
-
-
 
     //Add contact to list and table: adding to HTML table general SET list array of objects
     //(like {a: [0: {name: "Andrew", vacancy: "Prgrammer", phone: "+213123"}], b: [{name: "BAndrew", vacancy: "Prgrammer", phone: "+2131232"}}]})
@@ -108,7 +101,7 @@ window.onload = function () {
         }
     }
 
-    //Change counter of 
+    //Change counter of contact for 1 letter
     function changeCounter(firstLetter) {
         //If div hasn't span - creating it
         let hasSpan = false;
@@ -120,6 +113,7 @@ window.onload = function () {
             }
         }
 
+        //If letter hasn't span element - creating it. Else - just increase counter
         if (!hasSpan) {
             let span = document.createElement('span');
             span.className = 'letter__couner letter__couner_active';
@@ -146,7 +140,7 @@ window.onload = function () {
 
         //Create and add window close symbol (button)
         let closeWindow = document.createElement('i');
-        closeWindow.className = 'fa fa-window-close js-close';
+        closeWindow.className = 'fa fa-window-close contact__delete js-delete-elemet';
         closeWindow.setAttribute('aria-hidden', true);
         letter.after(div);
 
@@ -161,10 +155,9 @@ window.onload = function () {
             let children = event.target.parentNode.children;
 
             for (let i = 1; i < children.length; i++) {
-
                 children[i].classList.toggle('letter__info_active');
                 //Adding for evert contact delete function               
-                let delBtn = children[i].querySelector('.js-close');
+                let delBtn = children[i].querySelector('.js-delete-elemet');
                 delBtn.addEventListener('click', function () {
                     deleteElement(delBtn.parentNode);
                 });
@@ -241,4 +234,30 @@ window.onload = function () {
             deleteElement(element);
         }
     });
+
+
+
+
+
+
+
+
+
+    //Open search popup
+    document.querySelector('.js-search-btn').addEventListener('click', function() {
+        document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
+        document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');
+    });
+
+    document.querySelector('.js-popup-close').addEventListener('click', togglePopUp);
+    document.querySelector('.js-popup-bg').addEventListener('click', togglePopUp);
+
+    function togglePopUp() {
+        document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
+        document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');      
+    }
+
+    document.querySelector('.js-search-input').addEventListener('input', function() {
+        //функция поиска
+    })
 };

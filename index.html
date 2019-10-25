@@ -27,6 +27,7 @@
             <input type="text" class="inputs__item inputs__phone js-phone-input" placeholder="Phone +X XXX XXX XX XX" value = "+213123">
             <input type="submit" class = "inputs__item inputs__submit js-submit-btn" value = "ADD">
             <input type="submit" class = "inputs__item inputs__clear js-clear-btn" value = "Clear List">
+            <input type="submit" class = "inputs__item inputs__search js-search-btn" value = "Search">
         </div>
 
        
@@ -65,9 +66,22 @@
                     <div class = "column__element element"><div data-id = 'y' class="element__letter js-column-letter">Y</div></div>
                     <div class = "column__element element"><div data-id = 'z' class="element__letter js-column-letter">Z</div></div>                    
             </div>
-        </div>
-        
+        </div>        
         <div id = "z1"></div>
+
+
+
+        <div class="search-popup popup">
+            <div class="search-popup__item search-popup__text js-search-popup">                
+                <h1 class = "">Search contact</h1>
+                <input type="text" placeholder="Search..." class = "search-popup__input js-search-input">
+                <div class="search-popup__output js-popup-output"></div>
+
+                <i class="fa fa-window-close search-popup__close js-popup-close" aria-hidden="true"></i>
+            </div>
+            <div class="search-popup__item search-popup__bg js-popup-bg"></div>
+        </div>
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </body>
