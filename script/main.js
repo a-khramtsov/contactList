@@ -7,7 +7,11 @@ window.onload = function () {
         let phoneInput = document.querySelector('.js-phone-input');
 
         //If all inputs not empty, creating new object, else - printing error ang highlights incorrect inputs 
-        if (checkInput(nameInput) && checkInput(vacancyInput) && checkInput(phoneInput)) {            
+
+        let correctFirstInput = checkInput(nameInput);
+        let correctSecondInput = checkInput(vacancyInput);
+        let correctThirdInput = checkInput(phoneInput);
+        if (correctFirstInput && correctSecondInput && correctThirdInput) {
             contact.name = nameInput.value.trim();
             contact.vacancy = vacancyInput.value.trim();
             contact.phone = phoneInput.value.trim();
@@ -19,31 +23,42 @@ window.onload = function () {
             showErrorBlock('Error');
     });
 
-    function checkInput(input) {              
+    function checkInput(input) {
         let inputValue = input.value.trim().toLowerCase();
         let regLetters = /[a-zа-я ]/gmi;
-        let regNumbers = /[0-9+]/gmi; 
+        let regNumbers = /[0-9+]/gmi;
 
         if (input.className.includes('js-phone-input')) {
-            if (inputValue.length <= 5)
+            if (inputValue.length <= 5) {
                 showErrorInput("Can't be shorter than 5 symbols", input);
-            else if (inputValue.length > 30)
+                return false;
+            } else if (inputValue.length > 30) {
                 showErrorInput("Can't be longer than 30 symbols", input);
-            else if (inputValue[0] !== '+' || !regNumbers.test(inputValue))
+                return false;
+            } else if (inputValue[0] !== '+' || !checkRegExp(inputValue, regNumbers)) {
                 showErrorInput("Invalid phone number", input);
-
-            if (inputValue.length <= 5 || inputValue.length > 30 || inputValue[0] !== '+' || !regNumbers.test(inputValue))
                 return false;
+            }            
         } else {
-            if (inputValue.length < 3)
+            if (inputValue.length < 3) {
                 showErrorInput("Can't be shorter than 3 symbols", input);
-            else if (inputValue.length > 20)
-                showErrorInput("Can't be longer than 20 symbols", input);
-            else if (!regLetters.test(inputValue))
-                showErrorInput("Invalid value", input);
-
-            if (inputValue.length < 3 || inputValue.length > 20 || !regLetters.test(inputValue))
                 return false;
+            } else if (inputValue.length > 20) {
+                showErrorInput("Can't be longer than 20 symbols", input);
+                return false;
+            } else if (!checkRegExp(inputValue, regLetters)) {
+                showErrorInput("Invalid value", input);
+                return false;
+            } 
+         }
+        return true;
+    }
+
+    function checkRegExp(string, regExp) {
+        for (let i = 0; i < string.length; i++) {
+            if (string[i].search(regExp) == -1) {
+                return false;
+            }
         }
         return true;
     }
@@ -167,15 +182,15 @@ window.onload = function () {
 
 
     //Deleting element - removing form general SET, array of objects, HTML table, reducting contact couner(if counter = 0 - removing span)
-    function deleteElement(element) {       
-        removeFromGeneralSet (element);              
-        removeFromObjectArray(element);        
-        spanReduciton(element);       
+    function deleteElement(element) {
+        removeFromGeneralSet(element);
+        removeFromObjectArray(element);
+        spanReduciton(element);
         element.remove();
     }
 
 
-    function removeFromGeneralSet (element) {
+    function removeFromGeneralSet(element) {
         let delObj = textToObject(element.textContent);
         for (let contactSetElem of contactSet.keys()) {
             if (contactSetElem.name == delObj.name && contactSetElem.vacancy == delObj.vacancy && contactSetElem.phone == delObj.phone) {
@@ -244,7 +259,7 @@ window.onload = function () {
 
 
     //Open search popup
-    document.querySelector('.js-search-btn').addEventListener('click', function() {
+    document.querySelector('.js-search-btn').addEventListener('click', function () {
         document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
         document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');
     });
@@ -254,10 +269,10 @@ window.onload = function () {
 
     function togglePopUp() {
         document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
-        document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');      
+        document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');
     }
 
-    document.querySelector('.js-search-input').addEventListener('input', function() {
+    document.querySelector('.js-search-input').addEventListener('input', function () {
         //функция поиска
     })
 };
