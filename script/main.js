@@ -80,16 +80,16 @@ window.onload = function () {
             contact.vacancy = vacancyValue;
             contact.phone = phoneValue;
             //getting first letter of name - will be key of object array
-            let firstLetter = nameI[0].toLowerCase();       
+            let firstLetter = nameValue[0].toLowerCase();       
 
             addToTable(contact, firstLetter);
         } else {
             //If any input is empty, it will be highlighted and error will be shown 
-            if (nameI == '')
+            if (nameValue == '')
                 showError('Empty input', nameInput);                
-            if (vacancyI == '')
+            if (vacancyValue == '')
                 showError('Empty input', vacancyInput);               
-            if (phoneI == '')
+            if (phoneValue == '')
                 showError('Empty input', phoneInput);            
         }
 
