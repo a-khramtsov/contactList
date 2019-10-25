@@ -25,35 +25,65 @@ window.onload = function () {
 
     function checkInput(input) {
         let inputValue = input.value.trim().toLowerCase();
+        let inputCorrectStasus;
+       
+        if (input.className.includes('js-phone-input')) {
+            inputCorrectStasus = checkNumericInput(input, inputValue);
+        } else {
+            inputCorrectStasus = checkTextInput (input, inputValue);
+        }
+       return inputCorrectStasus;
+    }
+
+    function checkTextInput (input, inputValue) {       
         let regLetters = /[a-zа-я ]/gmi;
+
+        let errorText = "";
+        let incorrectValue = false;
+
+        if (inputValue.length < 3) {
+            errorText = "Can't be shorter than 3 symbols";
+            incorrectValue = true;
+        } else if (inputValue.length > 20) {
+            errorText =  "Can't be longer than 20 symbols";
+            incorrectValue = true;
+        } else if (!checkRegExp(inputValue, regLetters)) {
+            errorText = "Invalid value";
+            incorrectValue = true;
+        }
+
+        if (incorrectValue) {
+            showErrorInput(errorText, input);
+            return false;
+        }
+        return true;
+        
+    }
+
+    function checkNumericInput(input, inputValue) {        
         let regNumbers = /[0-9+]/gmi;
 
-        if (input.className.includes('js-phone-input')) {
-            if (inputValue.length <= 5) {
-                showErrorInput("Can't be shorter than 5 symbols", input);
-                return false;
-            } else if (inputValue.length > 30) {
-                showErrorInput("Can't be longer than 30 symbols", input);
-                return false;
-            } else if (inputValue[0] !== '+' || !checkRegExp(inputValue, regNumbers)) {
-                showErrorInput("Invalid phone number", input);
-                return false;
-            }            
-        } else {
-            if (inputValue.length < 3) {
-                showErrorInput("Can't be shorter than 3 symbols", input);
-                return false;
-            } else if (inputValue.length > 20) {
-                showErrorInput("Can't be longer than 20 symbols", input);
-                return false;
-            } else if (!checkRegExp(inputValue, regLetters)) {
-                showErrorInput("Invalid value", input);
-                return false;
-            } 
-         }
+        let errorText = "";
+        let incorrectValue = false;
+
+        if (inputValue.length <= 5) {
+            errorText = "Can't be shorter than 5 symbols";
+            incorrectValue = true;
+        } else if (inputValue.length > 30) {
+            errorText = "Can't be longer than 30 symbols";
+            incorrectValue = true;
+        } else if (inputValue[0] !== '+' || !checkRegExp(inputValue, regNumbers)) {
+            errorText = "Invalid phone number";
+            incorrectValue = true;
+        }
+        if (incorrectValue) {
+            showErrorInput(errorText, input);
+            return false;
+        }
         return true;
     }
 
+    //Checking string on regular exp. If match regExp - keep workingm else - return false
     function checkRegExp(string, regExp) {
         for (let i = 0; i < string.length; i++) {
             if (string[i].search(regExp) == -1) {
@@ -62,6 +92,8 @@ window.onload = function () {
         }
         return true;
     }
+
+
 
     //Arguments: error text and object, which class will be toggled to active
     function showErrorInput(errText, obj = z1) {
