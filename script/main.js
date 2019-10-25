@@ -1,7 +1,7 @@
 window.onload = function () {
 
     //Working with inputs
-    // let letterArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '];
+    let letterArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' '];
     //Changing name, vacancy inputs    
     let inputs = document.querySelectorAll('.js-name-input, .js-vacancy-input');
     inputs.forEach(item => {
@@ -12,9 +12,9 @@ window.onload = function () {
             } else if (target.value.trim().length > 20) {
                 showError("Can't be longer than 20 symbols", this);
             } 
-            // else if (!onlyAllowedLetters(target.value.toLowerCase(), letterArray)) {
-                // showError("Invalid value", this);
-            // }
+            else if (!onlyAllowedLetters(target.value.toLowerCase(), letterArray)) {
+                showError("Invalid value", this);
+            }
 
         });
     });
@@ -36,15 +36,15 @@ window.onload = function () {
     //Showing error
     //Arguments: error text and object, which class will be toggled to active
     function showError(err, obj = z1) {
-        let errorHolder = document.querySelector('.js-error-holder');
-        errorHolder.classList.toggle('error-holder_active');
+        let error = document.querySelector('.js-error');
+        error.classList.toggle('error_active');
         obj.classList.toggle(obj.classList[0] + '_active');
         obj.value = "";
-        errorHolder.textContent = err;
+        error.textContent = err;
 
         //Sand after 3 seconds hide error message
         setTimeout(function () {
-            errorHolder.classList.toggle('error-holder_active');
+            error.classList.toggle('error_active');
             obj.classList.toggle(obj.classList[0] + '_active');
         }, 3000);
     }
@@ -70,15 +70,15 @@ window.onload = function () {
         let vacancyInput = document.querySelector('.js-vacancy-input');
         let phoneInput = document.querySelector('.js-phone-input');
 
-        let nameI = nameInput.value.trim();
-        let vacancyI = vacancyInput.value.trim();
-        let phoneI = phoneInput.value.trim();
+        let nameValue = nameInput.value.trim();
+        let vacancyValue = vacancyInput.value.trim();
+        let phoneValue = phoneInput.value.trim();
 
         //If all inputs not empty, creating new object, else - printing error ang highlights incorrect inputs 
-        if (nameI != '' && vacancyI != '' && phoneI != "") {
-            contact.name = nameI;
-            contact.vacancy = vacancyI;
-            contact.phone = phoneI;
+        if (nameValue != '' && vacancyValue != '' && phoneValue != "") {
+            contact.name = nameValue;
+            contact.vacancy = vacancyValue;
+            contact.phone = phoneValue;
             //getting first letter of name - will be key of object array
             let firstLetter = nameI[0].toLowerCase();       
 
@@ -102,7 +102,6 @@ window.onload = function () {
 
     function addToTable(contact, firstLetter) {
         let notEquals = true;
-
         //Set list of all elements of contact list
         for (let contactE of contactSet.keys()) {
             if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {
@@ -128,7 +127,7 @@ window.onload = function () {
     function changeCounter(firstLetter) {
         //If div hasn't span - creating it
         let hasSpan = false;
-        let letter = document.querySelector('.js-column-letter#' + firstLetter);
+        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
         for (let i = 0; i < letter.children.length; i++) {
             if (letter.children[i].tagName == 'SPAN') {
                 hasSpan = true;
@@ -150,7 +149,7 @@ window.onload = function () {
 
     //Adding block with info about contact to letter when 
     function addInfoToLetter(firstLetter, contact) {
-        let letter = document.querySelector('.js-column-letter#' + firstLetter);
+        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
         let letterInfo = letter.parentNode.querySelector('.js-letter-info');
         //Create and add contact's info to page
         for (let i = 1; i < letter.parentNode.children.length; i++) {
@@ -201,7 +200,7 @@ window.onload = function () {
         }
        
         //Removing from array of objects            
-        let firstLetter = child.parentNode.children[0].id;
+        let firstLetter = child.parentNode.children[0].getAttribute('data-id');
         let letterContactsArray = letterContactsObj[firstLetter];
 
         for (let i = 0; i < letterContactsArray.length; i++) {

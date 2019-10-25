@@ -70,8 +70,7 @@ body{
     flex-direction: row;
     justify-content: space-around;
     align-items: center;    
-    width: 540px;
-    margin: 50px 0;
+    width: 560px;
 }
 .column__element{
     width: 250px;
@@ -134,16 +133,22 @@ body{
 
 /* Error message */
 .error-holder{
+    height: 30px; 
+    margin: 5px 0 15px 0;
+
+}
+.error{
     background: #dd6060;
     padding: 5px 10px;
     border: 2px solid #000;
     border-radius: 5px;      
     opacity: 0;
+    height: 20px;   
     transition: .5s;
     cursor: default;
 }
 
-.error-holder_active{  
+.error_active{  
     opacity: 1;
     cursor: text;    
 }
