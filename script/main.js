@@ -26,16 +26,16 @@ window.onload = function () {
     function checkInput(input) {
         let inputValue = input.value.trim().toLowerCase();
         let inputCorrectStasus;
-       
+
         if (input.className.includes('js-phone-input')) {
-            inputCorrectStasus = checkNumericInput(input, inputValue);
+            inputCorrectStasus = checkNumericInputValue(input, inputValue);
         } else {
-            inputCorrectStasus = checkTextInput (input, inputValue);
+            inputCorrectStasus = checkTextInputValue(input, inputValue);
         }
-       return inputCorrectStasus;
+        return inputCorrectStasus;
     }
 
-    function checkTextInput (input, inputValue) {       
+    function checkTextInputValue(input, inputValue) {
         let regLetters = /[a-zа-я ]/gmi;
 
         let errorText = "";
@@ -45,7 +45,7 @@ window.onload = function () {
             errorText = "Can't be shorter than 3 symbols";
             incorrectValue = true;
         } else if (inputValue.length > 20) {
-            errorText =  "Can't be longer than 20 symbols";
+            errorText = "Can't be longer than 20 symbols";
             incorrectValue = true;
         } else if (!checkRegExp(inputValue, regLetters)) {
             errorText = "Invalid value";
@@ -57,10 +57,9 @@ window.onload = function () {
             return false;
         }
         return true;
-        
     }
 
-    function checkNumericInput(input, inputValue) {        
+    function checkNumericInputValue(input, inputValue) {
         let regNumbers = /[0-9+]/gmi;
 
         let errorText = "";
@@ -187,7 +186,7 @@ window.onload = function () {
 
         //Create and add window close symbol (button)
         let closeWindow = document.createElement('i');
-        closeWindow.className = 'fa fa-window-close contact__delete js-delete-elemet';
+        closeWindow.className = 'fa fa-window-close contact__delete js-delete-element';
         closeWindow.setAttribute('aria-hidden', true);
         letter.after(div);
 
@@ -204,7 +203,7 @@ window.onload = function () {
             for (let i = 1; i < children.length; i++) {
                 children[i].classList.toggle('letter__info_active');
                 //Adding for evert contact delete function               
-                let delBtn = children[i].querySelector('.js-delete-elemet');
+                let delBtn = children[i].querySelector('.js-delete-element');
                 delBtn.addEventListener('click', function () {
                     deleteElement(delBtn.parentNode);
                 });
@@ -290,21 +289,69 @@ window.onload = function () {
 
 
 
-    //Open search popup
+    //POPUP
     document.querySelector('.js-search-btn').addEventListener('click', function () {
-        document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
-        document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');
+        togglePopUp();
+        lettersInfo = getAllContactsFromHTML()
     });
 
     document.querySelector('.js-popup-close').addEventListener('click', togglePopUp);
     document.querySelector('.js-popup-bg').addEventListener('click', togglePopUp);
 
     function togglePopUp() {
+        clearSearchPopup();
         document.querySelector('.js-search-popup').classList.toggle('search-popup__text_active');
         document.querySelector('.js-popup-bg').classList.toggle('search-popup__bg_active');
     }
 
+
+    let lettersInfo;
     document.querySelector('.js-search-input').addEventListener('input', function () {
-        //функция поиска
-    })
+        let searchInputValue = this.value.toLowerCase().trim();       
+        clearSearchPopup();
+
+        if (searchInputValue != '') {
+            findSearchMatch(lettersInfo, searchInputValue);
+        }
+    });
+
+
+
+    function findSearchMatch(lettersInfo, searchInputValue) {
+        for (let contact of lettersInfo) {
+            let contactClone = contact.cloneNode(true);
+            let elementObject = textToObject(contactClone.textContent);
+
+            if (elementObject.name.toLowerCase().startsWith(searchInputValue)) {
+                contactClone.classList.add('letter__info_active');
+                document.querySelector('.js-popup-output').appendChild(contactClone);
+                
+                deleteFromSearchTable(contact, contactClone);
+            }
+        }
+    }
+
+    function deleteFromSearchTable(contact, contactClone) {
+        let delBtn = contactClone.querySelector('.js-delete-element');
+        delBtn.addEventListener('click', function () {
+            contactClone.remove();
+            deleteElement(contact);
+        });
+    }
+
+
+
+
+    function getAllContactsFromHTML() {
+        return document.querySelectorAll('.js-letter-info');
+    }
+
+    function clearSearchPopup() {
+        let popupOutput = document.querySelector('.js-popup-output');
+
+        while (popupOutput.firstChild) {
+            popupOutput.removeChild(popupOutput.firstChild);
+        }
+    }
+
 };
