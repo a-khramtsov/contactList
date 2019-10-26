@@ -282,13 +282,6 @@ window.onload = function () {
     });
 
 
-
-
-
-
-
-
-
     //POPUP
     document.querySelector('.js-search-btn').addEventListener('click', function () {
         togglePopUp();
