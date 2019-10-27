@@ -22,9 +22,9 @@
 <!-- value = "Programmer" -->
 <!-- value = "+12321312" -->
         <div class="inputs">
-            <input type="text" class="inputs__item inputs__name js-name-input" placeholder="Name">
-            <input type="text" class="inputs__item inputs__vacancy js-vacancy-input" placeholder="Vacancy">
-            <input type="text" class="inputs__item inputs__phone js-phone-input" placeholder="Phone +X XXX XXX XX XX">
+            <input type="text" class="inputs__item inputs__name js-name-input" placeholder="Name" value = "Andrew">
+            <input type="text" class="inputs__item inputs__vacancy js-vacancy-input" placeholder="Vacancy" value = "Programmer">
+            <input type="text" class="inputs__item inputs__phone js-phone-input" placeholder="Phone +X XXX XXX XX XX" value = "+12321312">
             <input type="submit" class = "inputs__item inputs__submit js-submit-btn" value = "ADD">
             <input type="submit" class = "inputs__item inputs__clear js-clear-btn" value = "Clear List">
             <input type="submit" class = "inputs__item inputs__search js-search-btn" value = "Search">
@@ -76,13 +76,32 @@
                 <h1 class = "">Search contact</h1>
                 <input type="text" placeholder="Search..." class = "search-popup__input js-search-input">
                 <div class="search-popup__output js-popup-output"></div>
-
+                <input type="submit" class = "search-popup__show-all js-show-all-btn" value = "Show all">
                 <i class="fa fa-window-close search-popup__close js-popup-close" aria-hidden="true"></i>
             </div>
-            <div class="search-popup__item search-popup__bg js-popup-bg"></div>
+            <div class="search-popup__item search-popup__bg js-search-popup-bg"></div>
+        </div>
+        
+
+        <div class="edit-popup">
+            <div class="edit-popup__item edit-popup__text js-edit-popup">                
+                <h1 class = "">Edit</h1>
+                <div class="edit-popup_inputs">
+                    <input type="text" class="edit-popup_inputs__item edit-popup_inputs__name js-edit-name-input" placeholder="Name">
+                    <input type="text" class="edit-popup_inputs__item  edit-popup_inputs__vacancy js-edit-vacancy-input" placeholder="Vacancy">
+                    <input type="text" class="edit-popup_inputs__item  edit-popup_inputs__phone js-edit-phone-input" placeholder="Phone +X XXX XXX XX XX">
+                    <input type="submit" class = "inputs__item inputs__submit js-submit-edit-btn" value = "Edit">                   
+                </div>                      
+                
+                <i class="fa fa-window-close edit-popup__close js-edit-popup-close" aria-hidden="true"></i>
+            </div>
+            <div class="edit-popup__item edit-popup__bg js-edit-popup-bg"></div>
         </div>
 
     </div>
+    
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 </body>
 
