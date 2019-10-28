@@ -23,6 +23,94 @@ window.onload = function () {
             showErrorBlock('Error');
     });
 
+
+
+    //Add contact to list and table: adding to HTML table general SET list array of objects
+    //(like {a: [0: {name: "Andrew", vacancy: "Prgrammer", phone: "+213123"}], b: [{name: "BAndrew", vacancy: "Prgrammer", phone: "+2131232"}}]})
+    let contactSet = new Set();
+    let letterContactsObj = {};
+
+    function addToTable(contact, firstLetter) {
+        //Set list of all elements of contact list
+        if (checkEqualsInGlobalSet(contact)) {
+            contactSet.add(contact);
+            //If object hasn't this property, creating array at this property
+            if (!letterContactsObj.hasOwnProperty(firstLetter)) {
+                letterContactsObj[firstLetter] = new Array();
+            }
+            letterContactsObj[firstLetter].push(contact);
+            changeCounter(firstLetter);
+            addInfoToLetter(firstLetter, contact);
+        } else {
+            showErrorBlock("Contact List can't contain 2 equals contacts");
+        }
+    }
+
+    //Change counter of contact for 1 letter
+    function changeCounter(firstLetter) {
+        //If div hasn't span - creating it
+        let hasSpan = false;
+        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
+        for (let i = 0; i < letter.children.length; i++) {
+            if (letter.children[i].tagName == 'SPAN') {
+                hasSpan = true;
+                break;
+            }
+        }
+
+        //If letter hasn't span element - creating it. Else - just increase counter
+        if (!hasSpan) {
+            let span = document.createElement('span');
+            span.className = 'letter__couner letter__couner_active';
+            span.textContent = '0';
+            letter.appendChild(span);
+
+            letter.classList.add('element__letter_active');
+        }
+        letter.children[0].textContent++;
+    }
+
+
+    //Adding block with info about contact to letter when 
+    function addInfoToLetter(firstLetter, contact) {
+        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
+        //Create and add contact's info to page
+        for (let i = 1; i < letter.parentNode.children.length; i++) {
+            letter.parentNode.children[i].classList.remove('letter__info_active');
+        }
+        let div = document.createElement('div');
+        div.className = 'letter__info js-letter-info';
+        div.innerText = `Name: ${contact.name}\n  Vacancy: ${contact.vacancy}\n  Phone: ${contact.phone}\n`;
+
+        //Create and add window close symbol (button)
+        let closeWindow = document.createElement('i');
+        closeWindow.className = 'fa fa-window-close contact__delete js-delete-element';
+        closeWindow.setAttribute('aria-hidden', true);
+        letter.after(div);
+
+        div.appendChild(closeWindow);
+    }
+
+
+    //Show elements info when click on letter element
+    let tableElements = document.querySelectorAll('.js-column-letter');
+    tableElements.forEach(function (item) {
+        item.addEventListener('click', function (event) {
+            let children = event.target.parentNode.children;
+
+            for (let i = 1; i < children.length; i++) {
+                children[i].classList.toggle('letter__info_active');
+                //Adding for every contact delete function               
+                let delBtn = children[i].querySelector('.js-delete-element');
+                delBtn.addEventListener('click', function () {
+                    deleteElement(delBtn.parentNode);
+                });
+            }
+        });
+    });
+
+
+
     function checkInput(input) {
         let inputValue = input.value.trim().toLowerCase();
         let inputCorrectStasus;
@@ -92,7 +180,15 @@ window.onload = function () {
         return true;
     }
 
-
+    function checkEqualsInGlobalSet(contact) {
+        let notEquals = true;
+        for (let contactE of contactSet.keys()) {
+            if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {
+                notEquals = false;
+            }
+        }
+        return notEquals;
+    }
 
     //Arguments: error text and object, which class will be toggled to active
     function showErrorInput(errText, obj = z1) {
@@ -117,103 +213,9 @@ window.onload = function () {
         setTimeout(function () {
             error.classList.toggle('error_active');
         }, 3000);
-    }
-
-    //Add contact to list and table: adding to HTML table general SET list array of objects
-    //(like {a: [0: {name: "Andrew", vacancy: "Prgrammer", phone: "+213123"}], b: [{name: "BAndrew", vacancy: "Prgrammer", phone: "+2131232"}}]})
-    let contactSet = new Set();
-    let letterContactsObj = {};
-
-    function addToTable(contact, firstLetter) {
-        //Set list of all elements of contact list
-        if (checkEqualsInGlobalSet(contact)) {
-            contactSet.add(contact);
-            //If object hasn't this property, creating array at this property
-            if (!letterContactsObj.hasOwnProperty(firstLetter)) {
-                letterContactsObj[firstLetter] = new Array();
-            }
-            letterContactsObj[firstLetter].push(contact);
-            changeCounter(firstLetter);
-            addInfoToLetter(firstLetter, contact);
-        } else {
-            showErrorBlock("Contact List can't contain 2 equals contacts");
-        }
-    }
-
-
-
-    function checkEqualsInGlobalSet(contact) {
-        let notEquals = true;
-        for (let contactE of contactSet.keys()) {
-            if (contactE.name == contact.name && contactE.vacancy == contact.vacancy && contactE.phone == contact.phone) {
-                notEquals = false;
-            }
-        }
-        return notEquals;
-    }
-    //Change counter of contact for 1 letter
-    function changeCounter(firstLetter) {
-        //If div hasn't span - creating it
-        let hasSpan = false;
-        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
-        for (let i = 0; i < letter.children.length; i++) {
-            if (letter.children[i].tagName == 'SPAN') {
-                hasSpan = true;
-                break;
-            }
-        }
-
-        //If letter hasn't span element - creating it. Else - just increase counter
-        if (!hasSpan) {
-            let span = document.createElement('span');
-            span.className = 'letter__couner letter__couner_active';
-            span.textContent = '0';
-            letter.appendChild(span);
-
-            letter.classList.add('element__letter_active');
-        }
-        letter.children[0].textContent++;
-    }
-
-
-    //Adding block with info about contact to letter when 
-    function addInfoToLetter(firstLetter, contact) {
-        let letter = document.querySelector('.js-column-letter[data-id=' + firstLetter + ']');
-        //Create and add contact's info to page
-        for (let i = 1; i < letter.parentNode.children.length; i++) {
-            letter.parentNode.children[i].classList.remove('letter__info_active');
-        }
-        let div = document.createElement('div');
-        div.className = 'letter__info js-letter-info';
-        div.innerText = `Name: ${contact.name}\n  Vacancy: ${contact.vacancy}\n  Phone: ${contact.phone}\n`;
-
-        //Create and add window close symbol (button)
-        let closeWindow = document.createElement('i');
-        closeWindow.className = 'fa fa-window-close contact__delete js-delete-element';
-        closeWindow.setAttribute('aria-hidden', true);
-        letter.after(div);
-
-        div.appendChild(closeWindow);
-    }
-
-
-    //Show elements info when click on letter element
-    let tableElements = document.querySelectorAll('.js-column-letter');
-    tableElements.forEach(function (item) {
-        item.addEventListener('click', function (event) {
-            let children = event.target.parentNode.children;
-
-            for (let i = 1; i < children.length; i++) {
-                children[i].classList.toggle('letter__info_active');
-                //Adding for every contact delete function               
-                let delBtn = children[i].querySelector('.js-delete-element');
-                delBtn.addEventListener('click', function () {
-                    deleteElement(delBtn.parentNode);
-                });
-            }
-        });
-    });
-
+    }   
+   
+    
 
     //Deleting element - removing form general SET, array of objects, HTML table, reducting contact couner(if counter = 0 - removing span)
     function deleteElement(element) {
@@ -294,6 +296,10 @@ window.onload = function () {
     document.querySelector('.js-popup-close').addEventListener('click', toggleSearchPopUp);
     document.querySelector('.js-search-popup-bg').addEventListener('click', toggleSearchPopUp);
 
+    document.querySelector('.js-edit-popup-close').addEventListener('click', toggleEditPopUp);
+    document.querySelector('.js-edit-popup-bg').addEventListener('click', toggleEditPopUp);
+
+
     function toggleSearchPopUp() {
         clearSearchPopup();
         clearSearchInput();
@@ -301,14 +307,10 @@ window.onload = function () {
         document.querySelector('.js-search-popup-bg').classList.toggle('search-popup__bg_active');
     }
 
-
     function toggleEditPopUp() {
         document.querySelector('.js-edit-popup').classList.toggle('edit-popup__text_active');
         document.querySelector('.js-edit-popup-bg').classList.toggle('edit-popup__bg_active');
-    }
-
-    document.querySelector('.js-edit-popup-close').addEventListener('click', toggleEditPopUp);
-    document.querySelector('.js-edit-popup-bg').addEventListener('click', toggleEditPopUp);
+    }  
 
 
 
@@ -333,51 +335,10 @@ window.onload = function () {
             if (isStartsWithText(elementObject, searchInputValue)) {
                 printToSearchTable(contactClone);
                 editSearchTable(contact, contactClone);
-                deleteFromSearchTable(contact, contactClone);
-                //addConfirmEdit(contact, contactClone);
+                deleteFromSearchTable(contact, contactClone);                
             }
         }
     }
-
-
-    function printToSearchTable(contactClone) {
-        contactClone.classList.add('letter__info_active');
-        let editIcon = document.createElement('i');
-        editIcon.className = 'fa fa-edit js-edit';
-        contactClone.appendChild(editIcon);
-        document.querySelector('.js-popup-output').appendChild(contactClone);
-    }
-
-    function isStartsWithText(elementObject, searchInputValue) {
-        return elementObject.name.toLowerCase().startsWith(searchInputValue);
-    }
-
-    function deleteFromSearchTable(contact, contactClone) {
-        let delBtn = contactClone.querySelector('.js-delete-element');
-        delBtn.addEventListener('click', function () {
-            contactClone.remove();
-            deleteElement(contact);
-        });
-    }
-
-
-
-
-    function getAllContactsFromHTML() {
-        return document.querySelectorAll('.js-letter-info');
-    }
-
-    function clearSearchPopup() {
-        let popupOutput = document.querySelector('.js-popup-output');
-        while (popupOutput.firstChild) {
-            popupOutput.removeChild(popupOutput.firstChild);
-        }
-    }
-
-    function clearSearchInput() {
-        document.querySelector('.js-search-input').value = '';
-    }
-
 
     document.querySelector('.js-show-all-btn').addEventListener('click', function () {
         clearSearchPopup();
@@ -391,6 +352,14 @@ window.onload = function () {
     });
 
 
+    function printToSearchTable(contactClone) {
+        contactClone.classList.add('letter__info_active');
+        let editIcon = document.createElement('i');
+        editIcon.className = 'fa fa-edit js-edit';
+        contactClone.appendChild(editIcon);
+        document.querySelector('.js-popup-output').appendChild(contactClone);
+    }
+
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
@@ -399,11 +368,15 @@ window.onload = function () {
             toggleEditPopUp();            
             addConfirmEdit(contact, editBtn.parentNode);
         });
-
     }
 
-
-
+    function deleteFromSearchTable(contact, contactClone) {
+        let delBtn = contactClone.querySelector('.js-delete-element');
+        delBtn.addEventListener('click', function () {
+            contactClone.remove();
+            deleteElement(contact);
+        });
+    }
 
     function setEditInputsValue(contactClone) {
         let contactCloneObj = textToObject(contactClone.textContent);
@@ -412,12 +385,8 @@ window.onload = function () {
         document.querySelector('.js-edit-phone-input').value = contactCloneObj.phone;
     }
 
-
-
     function addConfirmEdit(contact, contactClone) {
-        document.querySelector('.js-submit-edit-btn').addEventListener('click', function (event) {
-
-
+        document.querySelector('.js-submit-edit-btn').addEventListener('click', function () {
             let contactObj = textToObject(contact.textContent);
             let contactCloneObj = textToObject(contactClone.textContent);
 
@@ -489,5 +458,24 @@ window.onload = function () {
         contactObj.name = contactCloneObj.name;
         contactObj.vacancy = contactCloneObj.vacancy;
         contactObj.phone = contactCloneObj.phone;
+    }
+
+    function isStartsWithText(elementObject, searchInputValue) {
+        return elementObject.name.toLowerCase().startsWith(searchInputValue);
+    }  
+
+    function getAllContactsFromHTML() {
+        return document.querySelectorAll('.js-letter-info');
+    }
+
+    function clearSearchPopup() {
+        let popupOutput = document.querySelector('.js-popup-output');
+        while (popupOutput.firstChild) {
+            popupOutput.removeChild(popupOutput.firstChild);
+        }
+    }
+
+    function clearSearchInput() {
+        document.querySelector('.js-search-input').value = '';
     }
 };
