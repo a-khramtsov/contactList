@@ -288,7 +288,7 @@ window.onload = function () {
     //POPUP
     document.querySelector('.js-search-btn').addEventListener('click', function () {
         toggleSearchPopUp();
-        lettersInfo = getAllContactsFromHTML();        
+        lettersInfo = getAllContactsFromHTML();
     });
 
     document.querySelector('.js-popup-close').addEventListener('click', toggleSearchPopUp);
@@ -386,7 +386,7 @@ window.onload = function () {
             printToSearchTable(contactClone);
             deleteFromSearchTable(contact, contactClone);
             editSearchTable(contact, contactClone);
-            
+
         }
     });
 
@@ -394,11 +394,10 @@ window.onload = function () {
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
-        editBtn.addEventListener('click', function () {            
+        editBtn.addEventListener('click', function () {
             setEditInputsValue(contactClone);
-            toggleEditPopUp(); 
-            console.log(editBtn.parentNode);
-            addConfirmEdit(contact, editBtn.parentNode);           
+            toggleEditPopUp();            
+            addConfirmEdit(contact, editBtn.parentNode);
         });
 
     }
@@ -406,7 +405,7 @@ window.onload = function () {
 
 
 
-    function setEditInputsValue(contactClone) {        
+    function setEditInputsValue(contactClone) {
         let contactCloneObj = textToObject(contactClone.textContent);
         document.querySelector('.js-edit-name-input').value = contactCloneObj.name;
         document.querySelector('.js-edit-vacancy-input').value = contactCloneObj.vacancy;
@@ -415,10 +414,10 @@ window.onload = function () {
 
 
 
-    function addConfirmEdit(contact, contactClone) { 
+    function addConfirmEdit(contact, contactClone) {
         document.querySelector('.js-submit-edit-btn').addEventListener('click', function (event) {
-          
-            
+
+
             let contactObj = textToObject(contact.textContent);
             let contactCloneObj = textToObject(contactClone.textContent);
 
@@ -442,37 +441,16 @@ window.onload = function () {
                     changeInArray(contactObj, contactCloneObj);
                     changeInMainTable(contactObj, contactCloneObj);
 
-
-
-
-
-
-
-
-                              
-                    // console.log(contactClone);
-                    contact = objToText(contact, contactObj);
-                    contactClone = objToText(contactClone, contactCloneObj);                    
-                    // console.log(contactClone);
-
-                     
-
-                    clearSearchPopup();
-                    clearSearchInput();
-
                     
-
-                               // deleteFromSearchTable(contact, contactClone);
-
-                    // console.log(contactSet);
-                    // console.log(letterContactsObj);
+                    contact = objToText(contact, contactObj);
+                    contactClone = objToText(contactClone, contactCloneObj);
+                    clearSearchInput();
+                    clearSearchPopup();                    
                 } else {
                     showErrorBlock("Contact List can't contain 2 equals contacts");
                 }
             }
         });
-
-
     }
 
 
