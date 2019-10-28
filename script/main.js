@@ -446,9 +446,7 @@ window.onload = function () {
                     contactClone = objToText(contactClone, contactCloneObj);
                     clearSearchInput();
                     clearSearchPopup();                    
-                } else {
-                    showErrorBlock("Contact List can't contain 2 equals contacts");
-                }
+                } 
             }
         });
     }
