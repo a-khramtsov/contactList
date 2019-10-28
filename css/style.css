@@ -73,7 +73,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    align-items: center;    
+    align-items: flex-start;    
     width: 560px;
 }
 .column__element{
@@ -347,6 +347,23 @@ body{
     margin: 5px;
     transition: .5s;
     width: 250px;
+}
+
+.edit-popup_inputs__submit{
+    height: 30px;
+    width: 100px;
+    background: #fff;
+    padding: 0;
+    border: 2px solid #c07777;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: .5s;
+}
+
+.edit-popup_inputs__submit:hover{
+    background: #c07777;
+    border: 2px solid #fff;
+    color: #fff;
 }
 
 .edit-popup_inputs__item_active{
