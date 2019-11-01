@@ -462,7 +462,6 @@ window.onload = function () {
         letterContactsObj[firstLetter] = letterContactsArray;
     }
 
-
     function changeInMainTable(contactObj, contactCloneObj) {
         contactObj.name = contactCloneObj.name;
         contactObj.vacancy = contactCloneObj.vacancy;
