@@ -345,9 +345,9 @@ window.onload = function () {
         clearSearchInput();
         for (let contact of lettersInfo) {
             let contactClone = contact.cloneNode(true);
-            printToSearchTable(contactClone);
-            deleteFromSearchTable(contact, contactClone);
+            printToSearchTable(contactClone);           
             editSearchTable(contact, contactClone);
+            deleteFromSearchTable(contact, contactClone);
         }
     });
 
@@ -361,7 +361,6 @@ window.onload = function () {
     }
 
     let globalContact, globalContactClone;
-
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
@@ -370,7 +369,8 @@ window.onload = function () {
             toggleEditPopUp();
             globalContact = contact;
             globalContactClone = contactClone;
-        });
+            
+        });       
     }
 
     document.querySelector('.js-submit-edit-btn').addEventListener('click', function () {
@@ -418,10 +418,15 @@ window.onload = function () {
 
                 contact = objToText(contact, contactObj);
                 contactClone = objToText(contactClone, contactCloneObj);
+
+                clearSearchPopup();
+                findSearchMatch(lettersInfo, document.querySelector('.js-search-input').value.toLowerCase().trim());
+                
+                
             } else {
                 showErrorBlock("Contact List can't contain 2 equals contacts");
             }
-        }
+        }        
     }
 
 
