@@ -61,7 +61,7 @@ window.onload = function () {
         //If letter hasn't span element - creating it. Else - just increase counter
         if (!hasSpan) {
             let span = document.createElement('span');
-            span.className = 'letter__couner letter__couner_active';
+            span.className = 'letter__counter letter__counter_active';
             span.textContent = '0';
             letter.appendChild(span);
 
@@ -191,7 +191,7 @@ window.onload = function () {
     }
 
     //Arguments: error text and object, which class will be toggled to active
-    function showErrorInput(errText, obj = z1) {
+    function showErrorInput(errText, obj) {
         obj.classList.toggle(obj.classList[0] + '_active');
         let tempPlaceHolder = obj.getAttribute('placeholder');
         obj.value = "";
@@ -213,9 +213,9 @@ window.onload = function () {
         setTimeout(function () {
             error.classList.toggle('error_active');
         }, 3000);
-    }   
-   
-    
+    }
+
+
 
     //Deleting element - removing form general SET, array of objects, HTML table, reducting contact couner(if counter = 0 - removing span)
     function deleteElement(element) {
@@ -310,7 +310,7 @@ window.onload = function () {
     function toggleEditPopUp() {
         document.querySelector('.js-edit-popup').classList.toggle('edit-popup__text_active');
         document.querySelector('.js-edit-popup-bg').classList.toggle('edit-popup__bg_active');
-    }  
+    }
 
 
 
@@ -335,19 +335,19 @@ window.onload = function () {
             if (isStartsWithText(elementObject, searchInputValue)) {
                 printToSearchTable(contactClone);
                 editSearchTable(contact, contactClone);
-                deleteFromSearchTable(contact, contactClone);                
+                deleteFromSearchTable(contact, contactClone);
             }
         }
     }
 
     document.querySelector('.js-show-all-btn').addEventListener('click', function () {
         clearSearchPopup();
+        clearSearchInput();
         for (let contact of lettersInfo) {
             let contactClone = contact.cloneNode(true);
             printToSearchTable(contactClone);
             deleteFromSearchTable(contact, contactClone);
             editSearchTable(contact, contactClone);
-
         }
     });
 
@@ -360,15 +360,22 @@ window.onload = function () {
         document.querySelector('.js-popup-output').appendChild(contactClone);
     }
 
+    let globalContact, globalContactClone;
+
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
         editBtn.addEventListener('click', function () {
             setEditInputsValue(contactClone);
-            toggleEditPopUp();            
-            addConfirmEdit(contact, editBtn.parentNode);
+            toggleEditPopUp();
+            globalContact = contact;
+            globalContactClone = contactClone;
         });
     }
+
+    document.querySelector('.js-submit-edit-btn').addEventListener('click', function () {
+        addConfirmEdit(globalContact, globalContactClone);
+    });
 
     function deleteFromSearchTable(contact, contactClone) {
         let delBtn = contactClone.querySelector('.js-delete-element');
@@ -386,38 +393,35 @@ window.onload = function () {
     }
 
     function addConfirmEdit(contact, contactClone) {
-        document.querySelector('.js-submit-edit-btn').addEventListener('click', function () {
-            let contactObj = textToObject(contact.textContent);
-            let contactCloneObj = textToObject(contactClone.textContent);
+        let contactObj = textToObject(contact.textContent);
+        let contactCloneObj = textToObject(contactClone.textContent);
 
-            let nameInput = document.querySelector('.js-edit-name-input');
-            let vacancyInput = document.querySelector('.js-edit-vacancy-input');
-            let phoneInput = document.querySelector('.js-edit-phone-input');
+        let nameInput = document.querySelector('.js-edit-name-input');
+        let vacancyInput = document.querySelector('.js-edit-vacancy-input');
+        let phoneInput = document.querySelector('.js-edit-phone-input');
 
-            let correctFirstInput = checkInput(nameInput);
-            let correctSecondInput = checkInput(vacancyInput);
-            let correctThirdInput = checkInput(phoneInput);
+        let correctFirstInput = checkInput(nameInput);
+        let correctSecondInput = checkInput(vacancyInput);
+        let correctThirdInput = checkInput(phoneInput);
 
-            if (correctFirstInput && correctSecondInput && correctThirdInput) {
-                contactCloneObj.name = nameInput.value.trim();
-                contactCloneObj.vacancy = vacancyInput.value.trim();
-                contactCloneObj.phone = phoneInput.value.trim();
+        if (correctFirstInput && correctSecondInput && correctThirdInput) {
+            contactCloneObj.name = nameInput.value.trim();
+            contactCloneObj.vacancy = vacancyInput.value.trim();
+            contactCloneObj.phone = phoneInput.value.trim();
 
-                if (checkEqualsInGlobalSet(contactCloneObj)) {
-                    toggleEditPopUp();
+            if (checkEqualsInGlobalSet(contactCloneObj)) {
+                toggleEditPopUp();
 
-                    changeInSet(contactObj, contactCloneObj);
-                    changeInArray(contactObj, contactCloneObj);
-                    changeInMainTable(contactObj, contactCloneObj);
+                changeInSet(contactObj, contactCloneObj);
+                changeInArray(contactObj, contactCloneObj);
+                changeInMainTable(contactObj, contactCloneObj);
 
-                    
-                    contact = objToText(contact, contactObj);
-                    contactClone = objToText(contactClone, contactCloneObj);
-                    clearSearchInput();
-                    clearSearchPopup();                    
-                } 
+                contact = objToText(contact, contactObj);
+                contactClone = objToText(contactClone, contactCloneObj);
+            } else {
+                showErrorBlock("Contact List can't contain 2 equals contacts");
             }
-        });
+        }
     }
 
 
@@ -462,10 +466,10 @@ window.onload = function () {
 
     function isStartsWithText(elementObject, searchInputValue) {
         return elementObject.name.toLowerCase().startsWith(searchInputValue);
-    }  
+    }
 
     function getAllContactsFromHTML() {
-        return document.querySelectorAll('.js-letter-info');
+        return document.querySelectorAll('.contact-table .js-letter-info');
     }
 
     function clearSearchPopup() {

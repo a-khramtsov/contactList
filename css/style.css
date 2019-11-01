@@ -95,12 +95,12 @@ body{
     border-bottom: 1px solid #c07777;
 }
 
-.letter__couner {
+.letter__counter {
     margin-left: 80%;   
     display: none; 
 }
 
-.letter__couner_active{
+.letter__counter_active{
     display: inline-block;
 }
 
