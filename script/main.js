@@ -124,7 +124,7 @@ window.onload = function () {
     }
 
     function checkTextInputValue(input, inputValue) {
-        let regLetters = /[a-zа-я ]/gmi;
+        let regLetters = /[a-zA-Z ]/gmi;
 
         let errorText = "";
         let incorrectValue = false;
