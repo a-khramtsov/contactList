@@ -129,7 +129,10 @@ window.onload = function () {
         let errorText = "";
         let incorrectValue = false;
 
-        if (inputValue.length < 3) {
+        if (inputValue == ""){
+            errorText = "Empty input";
+            incorrectValue = true;
+        } else if (inputValue.length < 3) {
             errorText = "Can't be shorter than 3 symbols";
             incorrectValue = true;
         } else if (inputValue.length > 20) {
@@ -153,7 +156,10 @@ window.onload = function () {
         let errorText = "";
         let incorrectValue = false;
 
-        if (inputValue.length <= 5) {
+        if (inputValue == ""){
+            errorText = "Empty input";
+            incorrectValue = true;
+        } else if (inputValue.length <= 5) {
             errorText = "Can't be shorter than 5 symbols";
             incorrectValue = true;
         } else if (inputValue.length > 30) {
