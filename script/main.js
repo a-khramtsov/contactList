@@ -129,7 +129,7 @@ window.onload = function () {
         let errorText = "";
         let incorrectValue = false;
 
-        if (inputValue == ""){
+        if (inputValue == "") {
             errorText = "Empty input";
             incorrectValue = true;
         } else if (inputValue.length < 3) {
@@ -156,7 +156,7 @@ window.onload = function () {
         let errorText = "";
         let incorrectValue = false;
 
-        if (inputValue == ""){
+        if (inputValue == "") {
             errorText = "Empty input";
             incorrectValue = true;
         } else if (inputValue.length <= 5) {
@@ -351,7 +351,7 @@ window.onload = function () {
         clearSearchInput();
         for (let contact of lettersInfo) {
             let contactClone = contact.cloneNode(true);
-            printToSearchTable(contactClone);           
+            printToSearchTable(contactClone);
             editSearchTable(contact, contactClone);
             deleteFromSearchTable(contact, contactClone);
         }
@@ -367,6 +367,7 @@ window.onload = function () {
     }
 
     let globalContact, globalContactClone;
+
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
@@ -375,8 +376,7 @@ window.onload = function () {
             toggleEditPopUp();
             globalContact = contact;
             globalContactClone = contactClone;
-            
-        });       
+        });
     }
 
     document.querySelector('.js-submit-edit-btn').addEventListener('click', function () {
@@ -388,7 +388,12 @@ window.onload = function () {
         delBtn.addEventListener('click', function () {
             contactClone.remove();
             deleteElement(contact);
+
+            clearSearchPopup();
+            lettersInfo = getAllContactsFromHTML();
+            findSearchMatch(lettersInfo, document.querySelector('.js-search-input').value.toLowerCase().trim());
         });
+
     }
 
     function setEditInputsValue(contactClone) {
@@ -425,14 +430,14 @@ window.onload = function () {
                 contact = objToText(contact, contactObj);
                 contactClone = objToText(contactClone, contactCloneObj);
 
+
                 clearSearchPopup();
                 findSearchMatch(lettersInfo, document.querySelector('.js-search-input').value.toLowerCase().trim());
-                
-                
+
             } else {
                 showErrorBlock("Contact List can't contain 2 equals contacts");
             }
-        }        
+        }
     }
 
 
