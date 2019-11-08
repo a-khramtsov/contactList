@@ -1,20 +1,16 @@
 https://dubsta-bubsta.github.io/contactList/
-# youtubeJS
+# Contact List on pure JavaScript
 
 Created in October 2019
 
 # About
-Like the last project, this one was made on video from YouTube channel Glo academy. Layout and styles I also took from the author. The JS code was implemented by the author and I repeated and understood it. The main reason I started doing this project is using hard API, specifically Youtube API.  
-I created API Key Clinet ID. Connected API to my project and started working with it. (Video author shown this).  
-But, in project were a lot of little issues that I fixed. Unfortunately, i didn't fix main problem - another people, who trying open my website can't open their likes and subscriptions.
+Я изучаю JavaScrpit и настало время сделать какой-то проект. Я решил создать список контактов с добавлением, удалением и поиском. Перед началом создания я наткнулся на BEM-методотогию. В своем проекте я использовал ее для именования классов, расположения элементов в блоках и для задания особых классов для элементов, которые используются в JS (По типу js-element-name). Также, в процессе создания я решил изучить SCSS препроцессор и переписать все стили под него.
 # Result
-As a result, I worked with Youtube API and made more convenient modules system for Webpack
-# How to be authorized?
-To be authorized you need to use your Youtube account. When you press "Log in", auth form will be opened. There is no reason to worry about your account, because this website using Youtube API.
+В результате, я получил кучу удовольствия от создания этого проекта. Изучил новые технологии, попрактиковался в написании JS-кода, занимался рефакторингом и оптимизацией кода.
 # Technologies used
 - HTML
 - CSS
 - SCSS
-- Gulp (for SCSS)
+- NPM, Gulp (for SCSS)
 - JavaScript
 - BEM
