@@ -7,7 +7,6 @@ window.onload = function () {
         let phoneInput = document.querySelector('.js-phone-input');
 
         //If all inputs not empty, creating new object, else - printing error ang highlights incorrect inputs 
-
         let correctFirstInput = checkInput(nameInput);
         let correctSecondInput = checkInput(vacancyInput);
         let correctThirdInput = checkInput(phoneInput);
