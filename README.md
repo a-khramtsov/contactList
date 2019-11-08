@@ -4,11 +4,12 @@ https://dubsta-bubsta.github.io/contactList/
 Created in October 2019
 
 # About
-Я изучаю JavaScrpit и настало время сделать какой-то проект. Я решил создать список контактов с добавлением, удалением и поиском. Перед началом создания я наткнулся на BEM-методотогию. В своем проекте я использовал ее для именования классов, расположения элементов в блоках и для задания особых классов для элементов, которые используются в JS (По типу js-element-name). Также, в процессе создания я решил изучить SCSS препроцессор и переписать все стили под него.  
+I'm learning Javascript and it's time to do any project. I decided to create a contact list with add, delete and search. Before I started creating, I came across a BEM methodology. In my project, I used it to classes names, elements location in blocks, and set special classes for elements that are used in JS (like js-element-name). Also, in the process of creating, I decided to study the SCSS preprocessor and rewrite all the styles for it.  
 
-Я сделал этот проект за неделю, но он настолько меня увлек, что я заходил почти каждый день и исправлял какие-то баги, переписывал и добавлял методы. Конечно, я столкнулся с некоторыми проблемами, которые получилось решить только через костыли, но в будущем я буду уделять таким вещам больше внимания. Я понял свои слабые стороны и буду дальше развиваться.
+I did this project in a week, but it fascinated me so much that I came in almost every day and fixed some bugs, rewrote and added methods. Of course, I faced some problems that could be solved only through kludges, but in the future I will pay more attention to such things. I understood my weaknesses and will continue to develop.
+
 # Result
-В результате, я получил кучу удовольствия от создания этого проекта. Изучил новые технологии, попрактиковался в написании JS-кода, занимался рефакторингом и оптимизацией кода. И теперь у меня наконец-то есть свой проект.
+As a result, I got a lot of pleasure from creating this project. I studied new technologies, practiced writing JS-code, refactoring and code optimization. And now I finally have my own project.
 # Technologies used
 - HTML
 - CSS
