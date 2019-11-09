@@ -6,7 +6,8 @@
   "dependencies": {
     "gulp": "^4.0.2",
     "gulp-scss": "^1.4.0",
-    "gulp-sass": "^4.0.2"
+    "gulp-sass": "^4.0.2",
+    "lodash.template": ">=4.5.0"
   },
   "devDependencies": {},
   "scripts": {
