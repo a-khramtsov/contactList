@@ -255,6 +255,7 @@ window.onload = function () {
         letterContactsObj[firstLetter] = letterContactsArray;
     }
 
+    //Reducting contactCounter when deleting contact
     function spanReduciton(element) {
         let span = element.parentNode.firstChild.querySelector('span');
         let elementLetter = element.parentNode.querySelector('.js-column-letter');
@@ -319,7 +320,7 @@ window.onload = function () {
 
 
 
-
+    //At every input in search-input starting search in whole contact list 
     let lettersInfo;
     document.querySelector('.js-search-input').addEventListener('input', function () {
         let searchInputValue = this.value.toLowerCase().trim();
@@ -331,7 +332,7 @@ window.onload = function () {
     });
 
 
-
+    //Searching match in contact list by searchInputValue
     function findSearchMatch(lettersInfo, searchInputValue) {
         for (let contact of lettersInfo) {
             let contactClone = contact.cloneNode(true);
@@ -345,6 +346,7 @@ window.onload = function () {
         }
     }
 
+    //Press at showAll button in seachPopup - showing all contacts
     document.querySelector('.js-show-all-btn').addEventListener('click', function () {
         clearSearchPopup();
         clearSearchInput();
@@ -356,7 +358,7 @@ window.onload = function () {
         }
     });
 
-
+    //Showing shuitable contact
     function printToSearchTable(contactClone) {
         contactClone.classList.add('letter__info_active');
         let editIcon = document.createElement('i');
@@ -366,7 +368,6 @@ window.onload = function () {
     }
 
     let globalContact, globalContactClone;
-
     function editSearchTable(contact, contactClone) {
         let editBtn = contactClone.querySelector('.js-edit');
 
@@ -382,6 +383,7 @@ window.onload = function () {
         addConfirmEdit(globalContact, globalContactClone);
     });
 
+    //Adding delete function for every contact in seach popup
     function deleteFromSearchTable(contact, contactClone) {
         let delBtn = contactClone.querySelector('.js-delete-element');
         delBtn.addEventListener('click', function () {
@@ -394,7 +396,7 @@ window.onload = function () {
         });
 
     }
-
+    //When click to Change at seach popup - opening new popup with filled fields with current contact values
     function setEditInputsValue(contactClone) {
         let contactCloneObj = textToObject(contactClone.textContent);
         document.querySelector('.js-edit-name-input').value = contactCloneObj.name;
@@ -402,6 +404,7 @@ window.onload = function () {
         document.querySelector('.js-edit-phone-input').value = contactCloneObj.phone;
     }
 
+    //Confirm changes at seach
     function addConfirmEdit(contact, contactClone) {
         let contactObj = textToObject(contact.textContent);
         let contactCloneObj = textToObject(contactClone.textContent);
@@ -439,7 +442,7 @@ window.onload = function () {
         }
     }
 
-
+    //Convert contact element in object type ti string view: Name: Andrew Vacancy: Programmer Phone: +1232131
     function objToText(contact, contactObj) {
         let icons = contact.innerHTML.split('<br>')[3];
         contact.innerText = `Name: ${contactObj.name}\n  Vacancy: ${contactObj.vacancy}\n  Phone: ${contactObj.phone}\n`;
@@ -447,7 +450,7 @@ window.onload = function () {
         return contact;
     }
 
-
+    //If globalSet not includes same value, adding element
     function changeInSet(contactObj, contactCloneObj) {
         for (let setElement of contactSet.keys()) {
             if (contactObj.name == setElement.name && contactObj.vacancy == setElement.vacancy && contactObj.phone == setElement.phone) {
@@ -458,6 +461,7 @@ window.onload = function () {
         }
     }
 
+    //Chnaging in contact array('a': [[firstObject], [],[]]) - finding the right contact and changing his fields
     function changeInArray(contactObj, contactCloneObj) {
         let firstLetter = contactObj.name[0].toLowerCase();
         let letterContactsArray = letterContactsObj[firstLetter];
